@@ -28,6 +28,7 @@ from decimal import Decimal
 
 import regex
 import six
+from lxml import objectify
 from bitarray import bitarray
 
 # Words that could turn up in YANG definition files that are actually
@@ -368,6 +369,8 @@ def RestrictedClassType(*args, **kwargs):
             if val is not False:
                 for test in self._restriction_tests:
                     passed = False
+                    if isinstance(val, objectify.StringElement):
+                        val = val.pyval
                     if test(val) is not False:
                         passed = True
                         break
